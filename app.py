@@ -1,6 +1,6 @@
 # app.py
 import streamlit as st
-from retrivaltemp import retrieve_documents  # updated module name
+from retrievaltemp import retrieve_documents  # updated module name
 
 st.title("SwiftVisa – AI-Based Visa Eligibility Screening Agent")
 
