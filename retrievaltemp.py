@@ -1,6 +1,6 @@
 # retrivaltemp.py
 import os
-from langchain.schema import Document
+from langchain.docstore.document import Document
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
