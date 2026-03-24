@@ -1,16 +1,18 @@
 # app.py
 import streamlit as st
-from retrieval_temp import retrieve_documents
+from retrivaltemp import retrieve_documents  # updated module name
 
-st.title("SwiftVisa Demo (Temporary)")
+st.title("SwiftVisa – AI-Based Visa Eligibility Screening Agent")
 
-query = st.text_input("Ask about any visa:")
+query = st.text_input("Enter your visa query:")
 
-if query:
-    results = retrieve_documents(query)
-    if not results:
-        st.warning("No documents found. Try another query.")
+if st.button("Check Eligibility"):
+    if query:
+        results = retrieve_documents(query)
+        for doc in results:
+            st.write(f"**Country:** {doc.metadata['country']}")
+            st.write(f"**Visa Type:** {doc.metadata['visa_type']}")
+            st.write(f"**Details:** {doc.page_content}")
+            st.write("---")
     else:
-        for i, doc in enumerate(results, 1):
-            st.subheader(f"{i}. {doc.country} — {doc.visa_type}")
-            st.write(doc.content)
+        st.warning("Please enter a query.")
