@@ -1,5 +1,5 @@
 import streamlit as st
-from retrievaltemp import retrieve_documents
+from retrievalout import retrieve_documents
 
 # ===== PAGE CONFIG =====
 st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered")
