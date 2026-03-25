@@ -22,76 +22,113 @@ if "response" not in st.session_state:
 st.markdown("""
 <style>
 
-/* Background */
+/* ===== BACKGROUND ===== */
 .stApp {
-    background-color: #f5f7fb;
+    background: linear-gradient(135deg, #eef2ff, #f8fafc);
 }
 
-/* Hide default header/footer */
+/* Hide default */
 header {visibility: hidden;}
 footer {visibility: hidden;}
 
-/* Title */
+/* ===== MAIN TITLE ===== */
 .main-title {
-    background: linear-gradient(90deg, #1E40AF, #2563EB);
+    background: linear-gradient(90deg, #1E3A8A, #2563EB);
     color: white;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 22px;
+    border-radius: 14px;
     text-align: center;
-    font-size: 34px;
-    font-weight: bold;
+    font-size: 36px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
 }
 
-/* Labels (VERY IMPORTANT FIX) */
+/* ===== CARD CONTAINER ===== */
+.block-container {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* ===== LABELS (FIXED VISIBILITY) ===== */
 label, .stSelectbox label, .stTextInput label, .stNumberInput label {
     color: #111827 !important;
     font-weight: 600 !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
 }
 
-/* Input fields */
+/* ===== INPUT FIELDS ===== */
 .stTextInput input,
 .stNumberInput input,
 .stSelectbox div[data-baseweb="select"] {
-    background-color: white !important;
-    color: black !important;
-    border-radius: 8px !important;
-    border: 1px solid #ccc !important;
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    border-radius: 10px !important;
+    border: 1px solid #d1d5db !important;
+    padding: 10px !important;
+    transition: 0.2s;
 }
 
-/* Placeholder text */
-::placeholder {
-    color: #6b7280 !important;
+/* Hover + focus */
+.stTextInput input:focus,
+.stNumberInput input:focus,
+.stSelectbox div[data-baseweb="select"]:focus-within {
+    border: 1px solid #2563EB !important;
+    box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
 }
 
-/* Button */
+/* ===== BUTTON ===== */
 .stButton>button {
-    background-color: #2563EB;
+    background: linear-gradient(90deg, #2563EB, #1E40AF);
     color: white;
     font-weight: bold;
-    border-radius: 10px;
-    height: 45px;
+    border-radius: 12px;
+    height: 48px;
+    border: none;
+    transition: 0.3s;
 }
 
-/* Result box */
+.stButton>button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(37,99,235,0.3);
+}
+
+/* ===== RESULT BOX ===== */
 .result-box {
-    background-color: white;
-    color: black;
+    background: #f9fafb;
+    color: #111827;
     padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-    line-height: 1.6;
+    border-radius: 12px;
+    border-left: 5px solid #2563EB;
+    font-size: 17px;
+    line-height: 1.7;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* Sidebar text */
-.css-1d391kg, .css-1v3fvcr {
-    color: black !important;
+/* ===== SUCCESS / ERROR ===== */
+.stSuccess {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.stError {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* ===== SIDEBAR ===== */
+section[data-testid="stSidebar"] {
+    background: #eef2ff;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #111827 !important;
 }
 
 </style>
 """, unsafe_allow_html=True)
-
 # ------------------------------
 # HEADER
 # ------------------------------
