@@ -21,12 +21,15 @@ if "response" not in st.session_state:
 # ------------------------------
 st.markdown("""
 <style>
-header {visibility:hidden;}
-footer {visibility:hidden;}
 
+/* Background */
 .stApp {
     background-color: #f5f7fb;
 }
+
+/* Hide default header/footer */
+header {visibility: hidden;}
+footer {visibility: hidden;}
 
 /* Title */
 .main-title {
@@ -35,16 +38,57 @@ footer {visibility:hidden;}
     padding: 20px;
     border-radius: 12px;
     text-align: center;
-    font-size: 36px;
+    font-size: 34px;
     font-weight: bold;
+}
+
+/* Labels (VERY IMPORTANT FIX) */
+label, .stSelectbox label, .stTextInput label, .stNumberInput label {
+    color: #111827 !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+}
+
+/* Input fields */
+.stTextInput input,
+.stNumberInput input,
+.stSelectbox div[data-baseweb="select"] {
+    background-color: white !important;
+    color: black !important;
+    border-radius: 8px !important;
+    border: 1px solid #ccc !important;
+}
+
+/* Placeholder text */
+::placeholder {
+    color: #6b7280 !important;
+}
+
+/* Button */
+.stButton>button {
+    background-color: #2563EB;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    height: 45px;
 }
 
 /* Result box */
 .result-box {
     background-color: white;
-    padding: 15px;
+    color: black;
+    padding: 20px;
     border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    line-height: 1.6;
 }
+
+/* Sidebar text */
+.css-1d391kg, .css-1v3fvcr {
+    color: black !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
