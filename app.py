@@ -1,30 +1,17 @@
 import streamlit as st
-from retrievalout import retrieve_documents
-from prompt_builder import build_prompt
-from llm import generate_response
+from retrievaltemp import retrieve_documents
 
-# ------------------------------
-# PAGE CONFIG
-# ------------------------------
-st.set_page_config(
-    page_title="SwiftVisa AI",
-    page_icon="🌍",
-    layout="wide"
-)
+# ===== PAGE CONFIG =====
+st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered")
 
-# Session state
-if "response" not in st.session_state:
-    st.session_state.response = None
-
-# ------------------------------
-# STYLING
+# ===== CUSTOM UI =====
 st.markdown("""
 <style>
 
-/* ===== BACKGROUND IMAGE (PERFECT BALANCE) ===== */
+/* ===== BACKGROUND ===== */
 .stApp {
-    background: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
-    url("https://images.unsplash.com/photo-1526779259212-756e4dcd2e38");
+    background: linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)),
+    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -41,7 +28,7 @@ footer {visibility: hidden;}
     padding: 22px;
     border-radius: 14px;
     text-align: center;
-    font-size: 38px;
+    font-size: 36px;
     font-weight: 700;
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     animation: fadeInDown 1s ease-in-out;
@@ -56,18 +43,13 @@ footer {visibility: hidden;}
     box-shadow: 0 10px 35px rgba(0,0,0,0.15);
 }
 
-/* ===== LABELS (FORCE DARK) ===== */
-label, .stMarkdown, .stText, .stSelectbox label {
+/* ===== LABELS ===== */
+label {
     color: #0f172a !important;
     font-weight: 600 !important;
 }
 
-/* ===== INPUT TEXT ===== */
-input, textarea {
-    color: #111827 !important;
-}
-
-/* ===== INPUT FIELDS ===== */
+/* ===== INPUTS ===== */
 .stTextInput input,
 .stNumberInput input,
 .stSelectbox div[data-baseweb="select"] {
@@ -75,19 +57,6 @@ input, textarea {
     color: #111827 !important;
     border-radius: 12px !important;
     border: 1px solid #cbd5f5 !important;
-    padding: 10px !important;
-}
-
-/* Fix dropdown text */
-.stSelectbox div[data-baseweb="select"] span {
-    color: #111827 !important;
-}
-
-/* Focus */
-.stTextInput input:focus,
-.stNumberInput input:focus {
-    border: 1px solid #2563EB !important;
-    box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
 
 /* ===== BUTTON ===== */
@@ -96,7 +65,7 @@ input, textarea {
     color: white;
     font-weight: bold;
     border-radius: 14px;
-    height: 52px;
+    height: 50px;
     border: none;
 }
 
@@ -109,24 +78,15 @@ input, textarea {
 .result-box {
     background: #ffffff;
     color: #111827;
-    padding: 22px;
+    padding: 20px;
     border-radius: 14px;
     border-left: 6px solid #2563EB;
-    font-size: 17px;
-    line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.6;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-/* ===== SIDEBAR ===== */
-section[data-testid="stSidebar"] {
-    background: rgba(255,255,255,0.95);
-}
-
-section[data-testid="stSidebar"] * {
-    color: #0f172a !important;
-}
-
-/* ===== ANIMATIONS ===== */
+/* ===== ANIMATION ===== */
 @keyframes fadeInDown {
     from {opacity: 0; transform: translateY(-20px);}
     to {opacity: 1; transform: translateY(0);}
@@ -134,90 +94,37 @@ section[data-testid="stSidebar"] * {
 
 </style>
 """, unsafe_allow_html=True)
-# ------------------------------
-# HEADER
-# ------------------------------
-st.markdown('<div class="main-title">🌍 SwiftVisa AI</div>', unsafe_allow_html=True)
 
-st.markdown("⚠️ AI-powered visa eligibility assistant (Demo)")
+# ===== TITLE =====
+st.markdown('<div class="main-title">🌍 SwiftVisa AI - Eligibility Checker</div>', unsafe_allow_html=True)
 
-# Sidebar
-st.sidebar.title("📌 Instructions")
-st.sidebar.info("""
-- Fill all fields  
-- Select correct visa type  
-- This is a demo system  
-""")
+st.markdown("## 📝 Applicant Details")
 
-# ------------------------------
-# FORM
-# ------------------------------
-st.header("📝 Applicant Details")
+# ===== FORM =====
+name = st.text_input("Full Name")
+age = st.number_input("Age", min_value=0, max_value=100)
+country = st.selectbox("Select Country", [
+    "USA", "Canada", "UK", "Australia", "Germany",
+    "France", "Japan", "UAE", "Singapore", "India"
+])
+visa_type = st.selectbox("Visa Type", ["Tourist", "Student", "Work"])
 
-col1, col2 = st.columns(2)
+# ===== BUTTON =====
+if st.button("Check Eligibility"):
 
-with col1:
-    age = st.number_input("Age", 1, 100, 25)
-    country = st.text_input("Destination Country")
-    visa_type = st.selectbox("Visa Type", ["Student Visa", "Work Visa", "Tourist Visa"])
+    with st.spinner("Analyzing your application... ⏳"):
+        result, reason = retrieve_documents(age, country, visa_type)
 
-with col2:
-    education = st.selectbox("Education", ["High School", "Bachelor", "Master", "PhD"])
-    funds = st.selectbox("Financial Proof", ["Yes", "No"])
-    income = st.number_input("Income", 0)
-    criminal = st.selectbox("Criminal Record", ["No", "Yes"])
+    # ===== RESULT DISPLAY =====
+    if result == "Eligible":
+        st.balloons()
+        st.success("🎉 Congratulations! You are Eligible!")
 
-# ------------------------------
-# BUTTON ACTION
-# ------------------------------
-if st.button("🔍 Check Visa Eligibility", use_container_width=True):
-
-    if not country:
-        st.error("Please enter destination country")
     else:
-        profile = {
-            "Age": age,
-            "Country": country,
-            "Visa": visa_type,
-            "Education": education,
-            "Funds": funds,
-            "Income": income,
-            "Criminal Record": criminal
-        }
+        st.error("❌ Sorry, You are Not Eligible")
 
-        with st.spinner("Analyzing your profile..."):
-
-            # Query for retrieval
-            query = f"{visa_type} in {country}"
-
-            docs = retrieve_documents(query)
-
-            prompt = build_prompt(profile, docs)
-
-            response = generate_response(prompt)
-
-            st.session_state.response = response
-
-# ------------------------------
-# RESULT DISPLAY
-# ------------------------------
-if st.session_state.response:
-
-    res = st.session_state.response
-
-    st.header("📊 Final Decision")
-
-    # Eligibility
-    if "NOT ELIGIBLE" in res:
-        st.error("❌ NOT ELIGIBLE")
-    else:
-        st.success("✅ ELIGIBLE")
-
-    # Full response
-    st.markdown("### 📄 AI Response")
-    st.markdown(f'<div class="result-box">{res}</div>', unsafe_allow_html=True)
-
-    # Reset
-    if st.button("🔄 Reset"):
-        st.session_state.response = None
-        st.rerun()
+    st.markdown(f"""
+    <div class="result-box">
+        <b>Reason:</b><br>{reason}
+    </div>
+    """, unsafe_allow_html=True)
