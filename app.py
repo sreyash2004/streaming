@@ -22,12 +22,12 @@ if "response" not in st.session_state:
 st.markdown("""
 <style>
 
-/* ===== BACKGROUND ===== */
+/* ===== BACKGROUND (GRADIENT + SOFT LOOK) ===== */
 .stApp {
-    background: linear-gradient(135deg, #eef2ff, #f8fafc);
+    background: linear-gradient(135deg, #dbeafe, #f0f9ff);
 }
 
-/* Hide default */
+/* Hide default Streamlit UI */
 header {visibility: hidden;}
 footer {visibility: hidden;}
 
@@ -38,23 +38,30 @@ footer {visibility: hidden;}
     padding: 22px;
     border-radius: 14px;
     text-align: center;
-    font-size: 36px;
+    font-size: 38px;
     font-weight: 700;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     margin-bottom: 20px;
+}
+
+/* ===== SECTION HEADINGS (FIXED VISIBILITY) ===== */
+h1, h2, h3 {
+    color: #1E293B !important;
+    font-weight: 700 !important;
 }
 
 /* ===== CARD CONTAINER ===== */
 .block-container {
-    background: white;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
     padding: 25px;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* ===== LABELS (FIXED VISIBILITY) ===== */
+/* ===== LABELS (CLEAR & DARK) ===== */
 label, .stSelectbox label, .stTextInput label, .stNumberInput label {
-    color: #111827 !important;
+    color: #0f172a !important;
     font-weight: 600 !important;
     font-size: 15px !important;
 }
@@ -66,17 +73,17 @@ label, .stSelectbox label, .stTextInput label, .stNumberInput label {
     background-color: #ffffff !important;
     color: #111827 !important;
     border-radius: 10px !important;
-    border: 1px solid #d1d5db !important;
+    border: 1px solid #cbd5f5 !important;
     padding: 10px !important;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
-/* Hover + focus */
+/* Focus glow */
 .stTextInput input:focus,
 .stNumberInput input:focus,
 .stSelectbox div[data-baseweb="select"]:focus-within {
     border: 1px solid #2563EB !important;
-    box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
 
 /* ===== BUTTON ===== */
@@ -85,46 +92,41 @@ label, .stSelectbox label, .stTextInput label, .stNumberInput label {
     color: white;
     font-weight: bold;
     border-radius: 12px;
-    height: 48px;
+    height: 50px;
     border: none;
     transition: 0.3s;
 }
 
 .stButton>button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 5px 15px rgba(37,99,235,0.3);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(37,99,235,0.4);
 }
 
 /* ===== RESULT BOX ===== */
 .result-box {
-    background: #f9fafb;
+    background: white;
     color: #111827;
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 5px solid #2563EB;
+    padding: 22px;
+    border-radius: 14px;
+    border-left: 6px solid #2563EB;
     font-size: 17px;
-    line-height: 1.7;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    line-height: 1.8;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
-/* ===== SUCCESS / ERROR ===== */
-.stSuccess {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.stError {
-    font-size: 18px;
-    font-weight: bold;
+/* ===== ALERT TEXT (MAKE VISIBLE) ===== */
+.stAlert {
+    color: #111827 !important;
+    font-weight: 600;
 }
 
 /* ===== SIDEBAR ===== */
 section[data-testid="stSidebar"] {
-    background: #eef2ff;
+    background: linear-gradient(180deg, #e0ecff, #f8fafc);
 }
 
 section[data-testid="stSidebar"] * {
-    color: #111827 !important;
+    color: #0f172a !important;
 }
 
 </style>
