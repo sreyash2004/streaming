@@ -18,20 +18,23 @@ if "response" not in st.session_state:
 
 # ------------------------------
 # STYLING
-# ------------------------------
 st.markdown("""
 <style>
 
-/* ===== BACKGROUND (GRADIENT + SOFT LOOK) ===== */
+/* ===== BACKGROUND IMAGE (PERFECT BALANCE) ===== */
 .stApp {
-    background: linear-gradient(135deg, #dbeafe, #f0f9ff);
+    background: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
+    url("https://images.unsplash.com/photo-1526779259212-756e4dcd2e38");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-/* Hide default Streamlit UI */
+/* Hide default */
 header {visibility: hidden;}
 footer {visibility: hidden;}
 
-/* ===== MAIN TITLE ===== */
+/* ===== TITLE ===== */
 .main-title {
     background: linear-gradient(90deg, #1E3A8A, #2563EB);
     color: white;
@@ -41,29 +44,27 @@ footer {visibility: hidden;}
     font-size: 38px;
     font-weight: 700;
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    margin-bottom: 20px;
+    animation: fadeInDown 1s ease-in-out;
 }
 
-/* ===== SECTION HEADINGS (FIXED VISIBILITY) ===== */
-h1, h2, h3 {
-    color: #1E293B !important;
-    font-weight: 700 !important;
-}
-
-/* ===== CARD CONTAINER ===== */
+/* ===== CONTAINER ===== */
 .block-container {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
 }
 
-/* ===== LABELS (CLEAR & DARK) ===== */
-label, .stSelectbox label, .stTextInput label, .stNumberInput label {
+/* ===== LABELS (FORCE DARK) ===== */
+label, .stMarkdown, .stText, .stSelectbox label {
     color: #0f172a !important;
     font-weight: 600 !important;
-    font-size: 15px !important;
+}
+
+/* ===== INPUT TEXT ===== */
+input, textarea {
+    color: #111827 !important;
 }
 
 /* ===== INPUT FIELDS ===== */
@@ -72,16 +73,19 @@ label, .stSelectbox label, .stTextInput label, .stNumberInput label {
 .stSelectbox div[data-baseweb="select"] {
     background-color: #ffffff !important;
     color: #111827 !important;
-    border-radius: 10px !important;
+    border-radius: 12px !important;
     border: 1px solid #cbd5f5 !important;
     padding: 10px !important;
-    transition: 0.3s;
 }
 
-/* Focus glow */
+/* Fix dropdown text */
+.stSelectbox div[data-baseweb="select"] span {
+    color: #111827 !important;
+}
+
+/* Focus */
 .stTextInput input:focus,
-.stNumberInput input:focus,
-.stSelectbox div[data-baseweb="select"]:focus-within {
+.stNumberInput input:focus {
     border: 1px solid #2563EB !important;
     box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
@@ -91,42 +95,41 @@ label, .stSelectbox label, .stTextInput label, .stNumberInput label {
     background: linear-gradient(90deg, #2563EB, #1E40AF);
     color: white;
     font-weight: bold;
-    border-radius: 12px;
-    height: 50px;
+    border-radius: 14px;
+    height: 52px;
     border: none;
-    transition: 0.3s;
 }
 
 .stButton>button:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+    box-shadow: 0 8px 20px rgba(37,99,235,0.4);
 }
 
 /* ===== RESULT BOX ===== */
 .result-box {
-    background: white;
+    background: #ffffff;
     color: #111827;
     padding: 22px;
     border-radius: 14px;
     border-left: 6px solid #2563EB;
     font-size: 17px;
-    line-height: 1.8;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-}
-
-/* ===== ALERT TEXT (MAKE VISIBLE) ===== */
-.stAlert {
-    color: #111827 !important;
-    font-weight: 600;
+    line-height: 1.7;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 /* ===== SIDEBAR ===== */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #e0ecff, #f8fafc);
+    background: rgba(255,255,255,0.95);
 }
 
 section[data-testid="stSidebar"] * {
     color: #0f172a !important;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInDown {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
 </style>
