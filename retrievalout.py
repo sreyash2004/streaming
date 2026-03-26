@@ -53,28 +53,24 @@ visa_data = {
     }
 }
 
-def retrieve_documents(query, k=2):
+def retrieve_documents(age, country, visa_type):
 
-    query_lower = query.lower()
-    docs = []
+    country = country.lower()
+    visa_type = visa_type.lower()
 
-    for country, visas in visa_data.items():
-        if country in query_lower:
-            for visa, text in visas.items():
-                if visa in query_lower:
-                    docs.append(
-                        Document(
-                            page_content=text,
-                            metadata={"country": country, "visa_type": visa}
-                        )
-                    )
+    # Check if country exists
+    if country in visa_data:
 
-    if not docs:
-        docs.append(
-            Document(
-                page_content="Visa depends on funds, background, and country rules.",
-                metadata={"country": "General", "visa_type": "General"}
-            )
-        )
+        visas = visa_data[country]
 
-    return docs[:k]
+        if visa_type in visas:
+
+            reason = visas[visa_type]
+
+            # Simple eligibility rule
+            if age >= 18:
+                return "Eligible", reason
+            else:
+                return "Not Eligible", "Minimum age requirement not met."
+
+    return "Not Eligible", "Invalid country or visa type selected."
