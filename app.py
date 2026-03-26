@@ -4,14 +4,13 @@ from retrievalout import retrieve_documents
 # ===== PAGE CONFIG =====
 st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered")
 
-# ===== CUSTOM UI =====
 st.markdown("""
 <style>
 
-/* ===== BACKGROUND ===== */
+/* ===== BACKGROUND IMAGE (PERFECT BALANCE) ===== */
 .stApp {
-    background: linear-gradient(rgba(255,255,255,0.82), rgba(255,255,255,0.82)),
-    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
+    background: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
+    url("https://images.unsplash.com/photo-1526779259212-756e4dcd2e38");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -28,7 +27,7 @@ footer {visibility: hidden;}
     padding: 22px;
     border-radius: 14px;
     text-align: center;
-    font-size: 36px;
+    font-size: 38px;
     font-weight: 700;
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     animation: fadeInDown 1s ease-in-out;
@@ -43,13 +42,18 @@ footer {visibility: hidden;}
     box-shadow: 0 10px 35px rgba(0,0,0,0.15);
 }
 
-/* ===== LABELS ===== */
-label {
+/* ===== LABELS (FORCE DARK) ===== */
+label, .stMarkdown, .stText, .stSelectbox label {
     color: #0f172a !important;
     font-weight: 600 !important;
 }
 
-/* ===== INPUTS ===== */
+/* ===== INPUT TEXT ===== */
+input, textarea {
+    color: #111827 !important;
+}
+
+/* ===== INPUT FIELDS ===== */
 .stTextInput input,
 .stNumberInput input,
 .stSelectbox div[data-baseweb="select"] {
@@ -57,6 +61,19 @@ label {
     color: #111827 !important;
     border-radius: 12px !important;
     border: 1px solid #cbd5f5 !important;
+    padding: 10px !important;
+}
+
+/* Fix dropdown text */
+.stSelectbox div[data-baseweb="select"] span {
+    color: #111827 !important;
+}
+
+/* Focus */
+.stTextInput input:focus,
+.stNumberInput input:focus {
+    border: 1px solid #2563EB !important;
+    box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
 
 /* ===== BUTTON ===== */
@@ -65,7 +82,7 @@ label {
     color: white;
     font-weight: bold;
     border-radius: 14px;
-    height: 50px;
+    height: 52px;
     border: none;
 }
 
@@ -78,15 +95,24 @@ label {
 .result-box {
     background: #ffffff;
     color: #111827;
-    padding: 20px;
+    padding: 22px;
     border-radius: 14px;
     border-left: 6px solid #2563EB;
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 17px;
+    line-height: 1.7;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-/* ===== ANIMATION ===== */
+/* ===== SIDEBAR ===== */
+section[data-testid="stSidebar"] {
+    background: rgba(255,255,255,0.95);
+}
+
+section[data-testid="stSidebar"] * {
+    color: #0f172a !important;
+}
+
+/* ===== ANIMATIONS ===== */
 @keyframes fadeInDown {
     from {opacity: 0; transform: translateY(-20px);}
     to {opacity: 1; transform: translateY(0);}
