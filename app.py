@@ -7,7 +7,7 @@ st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered
 st.markdown("""
 <style>
 
-/* ===== BACKGROUND IMAGE (PERFECT BALANCE) ===== */
+/* ===== BACKGROUND IMAGE ===== */
 .stApp {
     background: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
     url("https://images.unsplash.com/photo-1526779259212-756e4dcd2e38");
@@ -16,11 +16,9 @@ st.markdown("""
     background-attachment: fixed;
 }
 
-/* Hide default */
 header {visibility: hidden;}
 footer {visibility: hidden;}
 
-/* ===== TITLE ===== */
 .main-title {
     background: linear-gradient(90deg, #1E3A8A, #2563EB);
     color: white;
@@ -30,10 +28,8 @@ footer {visibility: hidden;}
     font-size: 38px;
     font-weight: 700;
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    animation: fadeInDown 1s ease-in-out;
 }
 
-/* ===== CONTAINER ===== */
 .block-container {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
@@ -42,18 +38,11 @@ footer {visibility: hidden;}
     box-shadow: 0 10px 35px rgba(0,0,0,0.15);
 }
 
-/* ===== LABELS (FORCE DARK) ===== */
-label, .stMarkdown, .stText, .stSelectbox label {
+label {
     color: #0f172a !important;
     font-weight: 600 !important;
 }
 
-/* ===== INPUT TEXT ===== */
-input, textarea {
-    color: #111827 !important;
-}
-
-/* ===== INPUT FIELDS ===== */
 .stTextInput input,
 .stNumberInput input,
 .stSelectbox div[data-baseweb="select"] {
@@ -64,58 +53,20 @@ input, textarea {
     padding: 10px !important;
 }
 
-/* Fix dropdown text */
-.stSelectbox div[data-baseweb="select"] span {
-    color: #111827 !important;
-}
-
-/* Focus */
-.stTextInput input:focus,
-.stNumberInput input:focus {
-    border: 1px solid #2563EB !important;
-    box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
-}
-
-/* ===== BUTTON ===== */
 .stButton>button {
     background: linear-gradient(90deg, #2563EB, #1E40AF);
     color: white;
     font-weight: bold;
     border-radius: 14px;
     height: 52px;
-    border: none;
 }
 
-.stButton>button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(37,99,235,0.4);
-}
-
-/* ===== RESULT BOX ===== */
 .result-box {
     background: #ffffff;
     color: #111827;
     padding: 22px;
     border-radius: 14px;
     border-left: 6px solid #2563EB;
-    font-size: 17px;
-    line-height: 1.7;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-}
-
-/* ===== SIDEBAR ===== */
-section[data-testid="stSidebar"] {
-    background: rgba(255,255,255,0.95);
-}
-
-section[data-testid="stSidebar"] * {
-    color: #0f172a !important;
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes fadeInDown {
-    from {opacity: 0; transform: translateY(-20px);}
-    to {opacity: 1; transform: translateY(0);}
 }
 
 </style>
@@ -129,11 +80,23 @@ st.markdown("## 📝 Applicant Details")
 # ===== FORM =====
 name = st.text_input("Full Name")
 age = st.number_input("Age", min_value=0, max_value=100)
-country = st.selectbox("Select Country", [
-    "USA", "Canada", "UK", "Australia", "Germany",
-    "France", "Japan", "UAE", "Singapore", "India"
-])
-visa_type = st.selectbox("Visa Type", ["Tourist", "Student", "Work"])
+
+col1, col2 = st.columns(2)
+
+with col1:
+    country = st.selectbox("Select Country", [
+        "USA", "Canada", "UK", "Australia", "Germany",
+        "France", "Japan", "UAE", "Singapore", "India"
+    ])
+    visa_type = st.selectbox("Visa Type", ["Tourist", "Student", "Work"])
+    education = st.selectbox("Education Level", ["High School", "Bachelor", "Master", "PhD"])
+    marital_status = st.selectbox("Marital Status", ["Single", "Married"])
+
+with col2:
+    purpose = st.selectbox("Purpose of Visit", ["Tourism", "Study", "Work"])
+    annual_income = st.number_input("Annual Income ($)", min_value=0)
+    financial_proof = st.selectbox("Financial Proof Available", ["Yes", "No"])
+    criminal_record = st.selectbox("Criminal Record", ["No", "Yes"])
 
 # ===== BUTTON =====
 if st.button("Check Eligibility"):
@@ -145,7 +108,6 @@ if st.button("Check Eligibility"):
     if result == "Eligible":
         st.balloons()
         st.success("🎉 Congratulations! You are Eligible!")
-
     else:
         st.error("❌ Sorry, You are Not Eligible")
 
