@@ -58,7 +58,6 @@ def retrieve_documents(age, country, visa_type):
     country = country.lower()
     visa_type = visa_type.lower()
 
-    # Check if country exists
     if country in visa_data:
 
         visas = visa_data[country]
@@ -67,10 +66,10 @@ def retrieve_documents(age, country, visa_type):
 
             reason = visas[visa_type]
 
-            # Simple eligibility rule
+            # Simple rule
             if age >= 18:
                 return "Eligible", reason
             else:
                 return "Not Eligible", "Minimum age requirement not met."
 
-    return "Not Eligible", "Invalid country or visa type selected."
+    return "Not Eligible", "Invalid country or visa type."
