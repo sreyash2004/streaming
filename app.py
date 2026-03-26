@@ -7,51 +7,79 @@ st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered
 st.markdown("""
 <style>
 
-/* ===== Background ===== */
+/* ===== BACKGROUND ===== */
 .stApp {
-    background: linear-gradient(rgba(230,240,255,0.9), rgba(230,240,255,0.9)),
+    background: linear-gradient(rgba(20,30,60,0.75), rgba(20,30,60,0.75)),
     url("https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1");
     background-size: cover;
     background-attachment: fixed;
 }
 
-/* ===== Main Card ===== */
+/* ===== MAIN CARD ===== */
 .block-container {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
     padding: 30px;
     border-radius: 18px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
 }
 
-/* ===== LABEL FIX (MOST IMPORTANT) ===== */
-label, .stTextInput label, .stNumberInput label, .stSelectbox label {
-    color: #111827 !important;   /* DARK BLACK */
+/* ===== TITLE FIX ===== */
+.main-title {
+    background: linear-gradient(90deg, #06B6D4, #3B82F6);
+    color: white;
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 38px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* ===== LABELS ===== */
+label {
+    color: #E5E7EB !important;
     font-weight: 600 !important;
-    font-size: 15px !important;
+    font-size: 15px;
 }
 
 /* ===== INPUT TEXT ===== */
-input, .stSelectbox div {
+input {
     color: #111827 !important;
-    font-weight: 500;
 }
 
 /* ===== INPUT BOX ===== */
 .stTextInput input,
-.stNumberInput input,
-.stSelectbox div[data-baseweb="select"] {
-    background-color: #F9FAFB !important;
-    border: 2px solid #D1D5DB !important;
+.stNumberInput input {
+    background: #F9FAFB !important;
     border-radius: 10px !important;
+}
+
+/* ===== SELECT BOX FIX (IMPORTANT) ===== */
+.stSelectbox div[data-baseweb="select"] {
+    background-color: #1F2937 !important;
+    color: white !important;
+    border-radius: 10px !important;
+}
+
+/* Selected text */
+.stSelectbox div[data-baseweb="select"] span {
+    color: white !important;
+}
+
+/* Dropdown menu */
+div[role="listbox"] {
+    background-color: #111827 !important;
+    color: white !important;
 }
 
 /* ===== BUTTON ===== */
 .stButton>button {
-    background: linear-gradient(90deg, #2563EB, #06B6D4);
+    background: linear-gradient(90deg, #06B6D4, #3B82F6);
     color: white;
-    font-size: 16px;
     font-weight: bold;
-    height: 50px;
+    height: 52px;
     border-radius: 12px;
     transition: 0.3s;
 }
@@ -62,21 +90,20 @@ input, .stSelectbox div {
 
 /* ===== RESULT BOX ===== */
 .result-box {
-    background: #F3F4F6;
+    background: rgba(255,255,255,0.1);
+    color: white;
     padding: 20px;
-    border-left: 6px solid #2563EB;
+    border-left: 6px solid #06B6D4;
     border-radius: 10px;
-    color: black;
 }
 
-/* ===== SIDEBAR TEXT ===== */
+/* ===== SIDEBAR ===== */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1E3A8A, #2563EB);
-    color: white;
+    background: linear-gradient(180deg, #020617, #1E3A8A);
 }
 
 section[data-testid="stSidebar"] * {
-    color: white !important;
+    color: #E5E7EB !important;
 }
 
 </style>
