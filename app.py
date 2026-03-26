@@ -7,104 +7,97 @@ st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered
 st.markdown("""
 <style>
 
-/* ===== BACKGROUND ===== */
+/* ===== BACKGROUND (SOFT PREMIUM GRADIENT) ===== */
 .stApp {
-    background: linear-gradient(rgba(20,30,60,0.75), rgba(20,30,60,0.75)),
-    url("https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1");
-    background-size: cover;
-    background-attachment: fixed;
+    background: linear-gradient(135deg, #e0f2fe, #f0f9ff, #eef2ff);
 }
 
 /* ===== MAIN CARD ===== */
 .block-container {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(18px);
+    background: #ffffff;
     padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* ===== TITLE FIX ===== */
+/* ===== TITLE ===== */
 .main-title {
-    background: linear-gradient(90deg, #06B6D4, #3B82F6);
+    background: linear-gradient(90deg, #2563EB, #06B6D4);
     color: white;
     padding: 20px;
     border-radius: 14px;
     text-align: center;
-    font-size: 38px;
-    font-weight: bold;
+    font-size: 36px;
+    font-weight: 700;
     margin-bottom: 20px;
-    letter-spacing: 1px;
 }
 
 /* ===== LABELS ===== */
 label {
-    color: #E5E7EB !important;
+    color: #1e293b !important;
     font-weight: 600 !important;
     font-size: 15px;
 }
 
-/* ===== INPUT TEXT ===== */
-input {
-    color: #111827 !important;
-}
-
 /* ===== INPUT BOX ===== */
 .stTextInput input,
-.stNumberInput input {
-    background: #F9FAFB !important;
-    border-radius: 10px !important;
-}
-
-/* ===== SELECT BOX FIX (IMPORTANT) ===== */
+.stNumberInput input,
 .stSelectbox div[data-baseweb="select"] {
-    background-color: #1F2937 !important;
-    color: white !important;
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5f5 !important;
     border-radius: 10px !important;
+    color: #0f172a !important;
 }
 
-/* Selected text */
+/* Dropdown text */
 .stSelectbox div[data-baseweb="select"] span {
-    color: white !important;
+    color: #0f172a !important;
 }
 
 /* Dropdown menu */
 div[role="listbox"] {
-    background-color: #111827 !important;
-    color: white !important;
+    background: white !important;
+    color: black !important;
 }
 
 /* ===== BUTTON ===== */
 .stButton>button {
-    background: linear-gradient(90deg, #06B6D4, #3B82F6);
+    background: linear-gradient(90deg, #3B82F6, #06B6D4);
     color: white;
     font-weight: bold;
-    height: 52px;
+    height: 50px;
     border-radius: 12px;
+    border: none;
     transition: 0.3s;
 }
 
 .stButton>button:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(59,130,246,0.3);
 }
 
 /* ===== RESULT BOX ===== */
 .result-box {
-    background: rgba(255,255,255,0.1);
-    color: white;
+    background: #f1f5f9;
     padding: 20px;
-    border-left: 6px solid #06B6D4;
+    border-left: 6px solid #3B82F6;
     border-radius: 10px;
+    color: #0f172a;
 }
 
 /* ===== SIDEBAR ===== */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #020617, #1E3A8A);
+    background: linear-gradient(180deg, #2563EB, #38BDF8);
 }
 
 section[data-testid="stSidebar"] * {
-    color: #E5E7EB !important;
+    color: white !important;
 }
+
+/* ===== REMOVE HEADER ===== */
+header {visibility: hidden;}
+footer {visibility: hidden;}
 
 </style>
 """, unsafe_allow_html=True)
