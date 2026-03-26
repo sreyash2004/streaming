@@ -4,59 +4,79 @@ from retrievalout import retrieve_documents
 # ===== PAGE CONFIG =====
 st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered")
 
-# ===== CUSTOM CSS =====
 st.markdown("""
 <style>
 
-/* Background */
+/* ===== Background ===== */
 .stApp {
-    background: linear-gradient(rgba(240,245,255,0.9), rgba(240,245,255,0.9)),
-    url("https://images.unsplash.com/photo-1502920917128-1aa500764cbd");
+    background: linear-gradient(rgba(230,240,255,0.9), rgba(230,240,255,0.9)),
+    url("https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1");
     background-size: cover;
     background-attachment: fixed;
 }
 
-/* Title */
-.main-title {
-    background: linear-gradient(90deg, #4F46E5, #06B6D4);
-    color: white;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    font-size: 36px;
-    font-weight: bold;
-}
-
-/* Card container */
+/* ===== Main Card ===== */
 .block-container {
-    background: rgba(255,255,255,0.92);
+    background: rgba(255, 255, 255, 0.95);
     padding: 30px;
     border-radius: 18px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.2);
 }
 
-/* Inputs */
+/* ===== LABEL FIX (MOST IMPORTANT) ===== */
+label, .stTextInput label, .stNumberInput label, .stSelectbox label {
+    color: #111827 !important;   /* DARK BLACK */
+    font-weight: 600 !important;
+    font-size: 15px !important;
+}
+
+/* ===== INPUT TEXT ===== */
+input, .stSelectbox div {
+    color: #111827 !important;
+    font-weight: 500;
+}
+
+/* ===== INPUT BOX ===== */
 .stTextInput input,
 .stNumberInput input,
 .stSelectbox div[data-baseweb="select"] {
+    background-color: #F9FAFB !important;
+    border: 2px solid #D1D5DB !important;
     border-radius: 10px !important;
 }
 
-/* Button */
+/* ===== BUTTON ===== */
 .stButton>button {
-    background: linear-gradient(90deg, #06B6D4, #3B82F6);
+    background: linear-gradient(90deg, #2563EB, #06B6D4);
     color: white;
+    font-size: 16px;
     font-weight: bold;
     height: 50px;
     border-radius: 12px;
+    transition: 0.3s;
 }
 
-/* Result box */
+.stButton>button:hover {
+    transform: scale(1.05);
+}
+
+/* ===== RESULT BOX ===== */
 .result-box {
-    background: #ffffff;
+    background: #F3F4F6;
     padding: 20px;
-    border-left: 6px solid #3B82F6;
+    border-left: 6px solid #2563EB;
     border-radius: 10px;
+    color: black;
+}
+
+/* ===== SIDEBAR TEXT ===== */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #1E3A8A, #2563EB);
+    color: white;
+}
+
+section[data-testid="stSidebar"] * {
+    color: white !important;
 }
 
 </style>
