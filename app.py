@@ -177,42 +177,6 @@ elif st.session_state.step == 3:
                 if criminal == "No": score += 10
                 score = min(score, 100)
 
-              elif st.session_state.step == 3:
-
-    st.subheader("📊 Additional Info")
-
-    ielts = st.number_input("IELTS Score *",0.0,9.0,step=0.5)
-    income = st.number_input("Annual Income ($) *",0)
-
-    rejection = st.selectbox("Previous Visa Rejection *", ["","No","Yes"])
-    criminal = st.selectbox("Criminal Record *", ["","No","Yes"])
-
-    col1,col2 = st.columns(2)
-
-    with col1:
-        if st.button("⬅ Back"):
-            st.session_state.step = 2
-
-    with col2:
-        if st.button("Check Eligibility 🚀"):
-
-            if ielts==0 or income==0 or rejection=="" or criminal=="":
-                st.error("⚠️ Fill all fields")
-            else:
-                result, reason = retrieve_documents(
-                    st.session_state.user["age"],
-                    st.session_state.visa["country"],
-                    st.session_state.visa["visa"]
-                )
-
-                # ===== SCORE =====
-                score = 50
-                if ielts >= 6: score += 15
-                if income > 20000: score += 15
-                if rejection == "No": score += 10
-                if criminal == "No": score += 10
-                score = min(score, 100)
-
                 # ===== RESULT =====
                 st.markdown("## 📊 Eligibility Result")
 
@@ -226,22 +190,27 @@ elif st.session_state.step == 3:
                 st.progress(score / 100)
 
                 # ===== CLEAN TEXT =====
-                clean_reason = reason.replace("•", "").replace("**", "").replace("<br>", "<br>").strip()
+                clean_reason = reason.replace("•", "").replace("**", "").strip()
 
-                # ===== CARD OUTPUT =====
-                <div class="result-card">
+                # ===== CENTER FIX =====
+                left, center, right = st.columns([1,2,1])
 
-                <h4>🔍 1. Visa Requirement Overview</h4>
-                <p>Requires I-20 form and financial proof.</p>
+                with center:
+                    st.markdown(f"""
+                    <div class="result-card">
 
-                <h4>📊 2. Eligibility Confidence Score</h4>
-                <p>Your profile score is <b>{score}%</b></p>
+                    <h4>🔍 1. Visa Requirement Overview</h4>
+                    <p>Requires I-20 form and financial proof.</p>
 
-                <h4>🧠 3. Detailed Analysis</h4>
-                <p>{clean_reason}</p>
+                    <h4>📊 2. Eligibility Confidence Score</h4>
+                    <p>Your profile score is <b>{score}%</b></p>
 
-                <h4>📌 4. Decision Explanation</h4>
-                <p>The decision is based on eligibility rules, visa type alignment, and overall profile strength.</p>
+                    <h4>🧠 3. Detailed Analysis</h4>
+                    <p>{clean_reason}</p>
 
-                </div>
+                    <h4>📌 4. Decision Explanation</h4>
+                    <p>The decision is based on eligibility rules, visa type alignment, and overall profile strength.</p>
+
+                    </div>
+                    """, unsafe_allow_html=True)
                 """, unsafe_allow_html=True)
