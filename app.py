@@ -18,9 +18,9 @@ countries = [
 st.markdown("""
 <style>
 
-/* CENTER */
+/* PAGE WIDTH */
 .block-container {
-    max-width: 850px;
+    max-width: 1000px;
     margin: auto;
     padding: 2rem;
 }
@@ -41,12 +41,6 @@ st.markdown("""
     font-weight:bold;
 }
 
-/* INPUTS */
-input, .stSelectbox div {
-    background:#ffffff !important;
-    color:#0f172a !important;
-}
-
 /* BUTTON */
 .stButton>button {
     background: linear-gradient(90deg,#2563EB,#06B6D4);
@@ -54,18 +48,6 @@ input, .stSelectbox div {
     font-weight:bold;
     border-radius:10px;
     height:42px;
-}
-
-/* RESULT BOX */
-.result-box {
-    background: linear-gradient(135deg,#ffffff,#e0f2fe);
-    padding:25px;
-    border-radius:15px;
-    border-left:6px solid #2563EB;
-    box-shadow:0 8px 20px rgba(0,0,0,0.08);
-    color:#0f172a;
-    font-size:16px;
-    line-height:1.7;
 }
 
 /* SIDEBAR */
@@ -186,29 +168,32 @@ elif st.session_state.step == 3:
                 score = min(score, 100)
 
                 # ===== RESULT =====
+                st.markdown("## 📊 Eligibility Result")
+
                 if result=="Eligible":
                     st.success("🎉 You are Eligible!")
                     st.balloons()
                 else:
                     st.error("❌ Not Eligible")
 
-                # ===== SCORE BAR =====
+                # ===== SCORE =====
+                st.write(f"**Score:** {score}%")
                 st.progress(score / 100)
-                st.write(f"### 📊 Eligibility Score: {score}%")
-# ===== CLEAN TEXT =====
-clean_reason = reason.replace("•", "").replace("-", "").replace("**", "").strip()
 
-# ===== CENTER LAYOUT =====
-col1, col2, col3 = st.columns([1,5,1])
+                st.markdown("---")
 
-with col2:
+                # ===== CLEAN TEXT =====
+                clean_reason = reason.replace("•", "").replace("**", "").replace("<br>", "\n").strip()
 
-    st.markdown("### 🔍 1. Visa Requirement Overview")
-    st.info("Requires I-20 form and financial proof.")
+                # ===== OUTPUT =====
+                st.markdown("### 🔍 1. Visa Requirement Overview")
+                st.info("Requires I-20 form and financial proof.")
 
-    st.markdown("### 📊 2. Eligibility Confidence Score")
-    st.success(f"Your profile score: {score}%")
+                st.markdown("### 📊 2. Eligibility Confidence Score")
+                st.success(f"Your profile score: {score}%")
 
-    st.markdown("### 🧠 3. Detailed Analysis")
-    st.write(clean_reason)
-    
+                st.markdown("### 🧠 3. Detailed Analysis")
+
+                for line in clean_reason.split("\n"):
+                    if line.strip():
+                        st.write(line.strip())
