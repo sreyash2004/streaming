@@ -196,21 +196,24 @@ elif st.session_state.step == 3:
                 st.progress(score / 100)
                 st.write(f"### 📊 Eligibility Score: {score}%")
 
-                # ===== CLEAN TEXT =====
-                clean_reason = reason.replace("•", "").replace("-", "").strip()
+# ===== CLEAN TEXT =====
+clean_reason = reason.replace("•", "").replace("-", "").strip()
 
-                # ===== OUTPUT BOX =====
-                st.markdown(f"""
-                <div class="result-box">
+# ===== CENTERED OUTPUT =====
+col1, col2, col3 = st.columns([1, 6, 1])   # center column
 
-                <h4>🔍 1. Visa Requirement Overview</h4>
-                <p>Requires I-20 form and financial proof.</p>
+with col2:
+    st.markdown(f"""
+    <div class="result-box">
 
-                <h4>📊 2. Eligibility Confidence Score</h4>
-                <p>Your profile has been evaluated with a confidence score of <b>{score}%</b>.</p>
+    <h4 style="text-align:center;">🔍 1. Visa Requirement Overview</h4>
+    <p style="text-align:center;">Requires I-20 form and financial proof.</p>
 
-                <h4>🧠 3. Detailed Analysis</h4>
-                <p>{clean_reason}</p>
+    <h4 style="text-align:center;">📊 2. Eligibility Confidence Score</h4>
+    <p style="text-align:center;">Your profile score is <b>{score}%</b></p>
 
-                </div>
-                """, unsafe_allow_html=True)
+    <h4 style="text-align:center;">🧠 3. Detailed Analysis</h4>
+    <p style="text-align:center;">{clean_reason}</p>
+
+    </div>
+    """, unsafe_allow_html=True)
