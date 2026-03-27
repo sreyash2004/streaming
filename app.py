@@ -18,52 +18,33 @@ countries = [
 st.markdown("""
 <style>
 
-/* 1. FORCE THE MAIN CONTAINER TO BE CENTERED */
+/* FORCE THE MAIN CONTAINER TO BE CENTERED */
 .block-container {
     max-width: 850px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-top: 2rem !important;
 }
 
-/* 2. FIX THE 'TILT' - FORCES THE MARKDOWN ELEMENT TO BE FULL WIDTH */
+/* FIX THE 'TILT' - FORCES THE MARKDOWN ELEMENT TO BE FULL WIDTH */
 [data-testid="stMarkdownContainer"] > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
 }
 
-/* 3. BACKGROUND */
+/* BACKGROUND */
 .stApp {
     background: linear-gradient(135deg, #e0f2fe, #f8fafc);
 }
 
-/* 4. RESULT CARD - ADDING BOX-SIZING IS KEY */
-.result-card {
-    background: white;
-    padding: 30px;
-    border-radius: 14px;
-    border-left: 8px solid #2563EB;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-    
-    /* This ensures the card stays centered within the 850px lane */
-    width: 100%; 
-    max-width: 800px;
-    margin: 20px auto !important;
-    
-    /* Prevents internal content from pushing the card's width out */
-    box-sizing: border-box; 
-    text-align: left;
-}
-
-/* 5. TITLE ALIGNMENT */
+/* TITLE */
 .main-title {
     width: 100%;
     background: linear-gradient(90deg,#2563EB,#06B6D4);
     color:white;
-    padding:20px;
+    padding:18px;
     border-radius:12px;
     text-align:center;
     font-size:32px;
@@ -72,7 +53,43 @@ st.markdown("""
     box-sizing: border-box;
 }
 
-/* 6. SIDEBAR */
+/* BUTTON */
+.stButton>button {
+    width: 100%;
+    height: 45px;
+    background: linear-gradient(90deg,#2563EB,#06B6D4);
+    color:white;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+/* RESULT CARD - BOX-SIZING IS THE KEY FIX */
+.result-card {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    border-left: 8px solid #2563EB;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin: 30px auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    text-align: left;
+}
+
+/* TEXT SPACING */
+.result-card h4 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #1e3a8a;
+}
+
+.result-card p {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #334155;
+}
+
+/* SIDEBAR */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg,#2563EB,#38BDF8);
 }
@@ -82,6 +99,7 @@ section[data-testid="stSidebar"] * {
 
 </style>
 """, unsafe_allow_html=True)
+
 # ===== SIDEBAR =====
 st.sidebar.title("⚠️ Important Notice")
 st.sidebar.warning("AI-based visa checker\nNot official decision\nEmbassy has final authority")
@@ -93,12 +111,9 @@ st.markdown('<div class="main-title">🌍 SwiftVisa AI</div>', unsafe_allow_html
 # STEP 1
 # ======================
 if st.session_state.step == 1:
-
     st.subheader("👤 Personal Information")
-
     name = st.text_input("Full Name *")
     age = st.number_input("Age *", 0, 100)
-
     marital = st.selectbox("Marital Status *", ["", "Single", "Married"])
     employment = st.selectbox("Employment *", ["", "Student", "Employed", "Unemployed"])
     education = st.selectbox("Education *", ["", "High School", "Bachelor", "Master", "PhD"])
@@ -114,21 +129,16 @@ if st.session_state.step == 1:
 # STEP 2
 # ======================
 elif st.session_state.step == 2:
-
     st.subheader("🌍 Visa Details")
-
     country = st.selectbox("Destination Country *", [""]+countries)
     visa = st.selectbox("Visa Type *", ["", "Tourist","Student","Work"])
-
     travel = st.selectbox("Travel History *", ["","None","Few","Frequent"])
     finance = st.selectbox("Financial Proof *", ["","Yes","No"])
 
     col1, col2 = st.columns(2)
-
     with col1:
         if st.button("⬅ Back"):
             st.session_state.step = 1
-
     with col2:
         if st.button("Next ➡"):
             if country=="" or visa=="" or travel=="" or finance=="":
@@ -141,34 +151,29 @@ elif st.session_state.step == 2:
 # STEP 3
 # ======================
 elif st.session_state.step == 3:
-
     st.subheader("📊 Additional Info")
-
     ielts = st.number_input("IELTS Score *",0.0,9.0,step=0.5)
     income = st.number_input("Annual Income ($) *",0)
-
     rejection = st.selectbox("Previous Visa Rejection *", ["","No","Yes"])
     criminal = st.selectbox("Criminal Record *", ["","No","Yes"])
 
     col1, col2 = st.columns(2)
-
     with col1:
         if st.button("⬅ Back"):
             st.session_state.step = 2
-
     with col2:
         if st.button("Check Eligibility 🚀"):
-
             if ielts==0 or income==0 or rejection=="" or criminal=="":
                 st.error("⚠️ Fill all fields")
             else:
+                # Assuming retrieve_documents is imported and working
                 result, reason = retrieve_documents(
                     st.session_state.user["age"],
                     st.session_state.visa["country"],
                     st.session_state.visa["visa"]
                 )
 
-                # SCORE
+                # SCORE LOGIC
                 score = 50
                 if ielts >= 6: score += 15
                 if income > 20000: score += 15
@@ -176,7 +181,7 @@ elif st.session_state.step == 3:
                 if criminal == "No": score += 10
                 score = min(score, 100)
 
-                # RESULT
+                # RESULT HEADER
                 st.markdown("## 📊 Eligibility Result")
 
                 if result == "Eligible":
@@ -189,21 +194,19 @@ elif st.session_state.step == 3:
 
                 clean_reason = reason.replace("•", "").replace("**", "").strip()
 
-                # FINAL CARD
+                # FINAL CARD (CORRECTED WRAPPER)
                 st.markdown(f"""
                 <div class="result-card">
+                    <h4>🔍 1. Visa Requirement Overview</h4>
+                    <p>Requires I-20 form and financial proof.</p>
 
-                <h4>🔍 1. Visa Requirement Overview</h4>
-                <p>Requires I-20 form and financial proof.</p>
+                    <h4>📊 2. Eligibility Confidence Score</h4>
+                    <p><b>{score}%</b></p>
 
-                <h4>📊 2. Eligibility Confidence Score</h4>
-                <p><b>{score}%</b></p>
+                    <h4>🧠 3. Detailed Analysis</h4>
+                    <p>{clean_reason}</p>
 
-                <h4>🧠 3. Detailed Analysis</h4>
-                <p>{clean_reason}</p>
-
-                <h4>📌 4. Decision Explanation</h4>
-                <p>Based on eligibility rules and profile strength.</p>
-
+                    <h4>📌 4. Decision Explanation</h4>
+                    <p>Based on eligibility rules and profile strength.</p>
                 </div>
                 """, unsafe_allow_html=True)
