@@ -3,8 +3,46 @@ from retrievalout import retrieve_documents
 
 # ===== CONFIG =====
 st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered")
+# ======================
+# 📌 SIDEBAR
+# ======================
+with st.sidebar:
 
-# ===== CSS (FIXED ALIGNMENT) =====
+    st.title("🌍 SwiftVisa AI")
+
+    st.markdown("""
+### 🤖 About the Project
+SwiftVisa AI is an intelligent visa eligibility checker that helps users quickly understand their chances of getting a visa.
+
+It analyzes key factors like:
+- Passport availability
+- Criminal record
+- Financial proof
+- Previous visa history
+
+---
+
+### 🚀 Key Features
+- Instant eligibility check
+- Smart scoring system
+- Personalized suggestions
+- Improvement guidance
+
+---
+
+### ⚠️ Disclaimer
+This tool provides **estimated guidance only**.
+
+It does NOT guarantee visa approval.  
+Final decisions are made by official immigration authorities of each country.
+
+---
+
+### 💡 Tip
+Provide accurate details for better results.
+""")
+
+# ===== CSS =====
 st.markdown("""
 <style>
 .stApp {
@@ -20,13 +58,7 @@ st.markdown("""
     box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
 
-/* CENTER FIX */
-div[data-testid="stMarkdownContainer"] p {
-    text-align: left !important;
-}
-
-/* TITLE */
-.title-box {
+.title {
     text-align: center;
     font-size: 34px;
     font-weight: 700;
@@ -34,14 +66,12 @@ div[data-testid="stMarkdownContainer"] p {
     margin-bottom: 20px;
 }
 
-/* SECTION */
 .section {
     font-size: 20px;
     font-weight: 600;
     margin-top: 25px;
 }
 
-/* BUTTON */
 .stButton>button {
     width: 100%;
     height: 50px;
@@ -51,24 +81,22 @@ div[data-testid="stMarkdownContainer"] p {
     font-weight: bold;
 }
 
-/* RESULT BOX */
 .result-box {
     background: #f1f5f9;
     padding: 18px;
     border-radius: 10px;
     border-left: 5px solid #2563EB;
-    text-align: left;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ===== TITLE =====
-st.markdown('<div class="title-box">🌍 SwiftVisa AI - Eligibility Checker</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">🌍 SwiftVisa AI - Eligibility Checker</div>', unsafe_allow_html=True)
 
 # ======================
 # 👤 PERSONAL INFO
 # ======================
-st.markdown('<div class="section">👤 Personal Information</div>', unsafe_allow_html=True)
+st.markdown('<div class="section">👤 Personal Info</div>', unsafe_allow_html=True)
 
 name = st.text_input("Full Name")
 age = st.number_input("Age", 0, 100)
@@ -84,7 +112,7 @@ with col2:
     criminal_record = st.selectbox("Criminal Record", ["", "No", "Yes"])
 
 # ======================
-# 📊 CORE VISA CHECK
+# 📊 CORE FACTORS
 # ======================
 st.markdown('<div class="section">📊 Core Visa Factors</div>', unsafe_allow_html=True)
 
@@ -97,7 +125,7 @@ with col2:
     previous_rejection = st.selectbox("Previous Visa Rejection", ["", "No", "Yes"])
 
 # ======================
-# 🟡 OPTIONAL INFO
+# 🟡 OPTIONAL
 # ======================
 st.markdown('<div class="section">🟡 Optional (Improves Chances)</div>', unsafe_allow_html=True)
 
@@ -141,54 +169,74 @@ if st.button("Check Eligibility 🚀"):
         steps = []
 
         # ======================
-        # 🔴 STRICT RULES
+        # 🔴 STRICT RULES (FIXED)
         # ======================
+        issues_found = False
+
         if passport == "No":
             result = "Not Eligible"
             reason = "❌ Valid passport is required."
+            improvements.append("Apply for a valid passport")
+            steps.append("Visit official passport portal and apply")
+            issues_found = True
 
-        elif criminal_record == "Yes":
+        if criminal_record == "Yes":
             result = "Not Eligible"
             reason = "❌ Criminal record found."
+            improvements.append("Maintain a clean legal record")
+            steps.append("Provide legal clearance or valid explanation")
+            issues_found = True
 
-        elif previous_rejection == "Yes":
+        if previous_rejection == "Yes":
             result = "Not Eligible"
             reason = "❌ Previous visa rejection detected."
+            improvements.append("Improve application profile")
+            steps.append("Understand rejection reason and reapply with stronger documents")
+            issues_found = True
 
-        elif financial_proof == "No":
+        if financial_proof == "No":
             result = "Not Eligible"
             reason = "❌ Financial proof is mandatory."
+            improvements.append("Show financial capability")
+            steps.append("Prepare bank statements or financial documents")
+            issues_found = True
 
         # ======================
         # 🧠 SCORE SYSTEM
         # ======================
         score = 50
 
+        # IELTS
         if ielts == "Yes":
             if ielts_score and ielts_score >= 6:
                 score += 10
             else:
                 improvements.append("Improve IELTS score")
-                steps.append("Try to achieve at least 6+ band")
-
+                steps.append("Aim for at least 6+ band")
         else:
             improvements.append("Consider taking IELTS")
-            steps.append("IELTS improves approval chances")
+            steps.append("IELTS improves visa approval chances")
 
+        # Income
         if income > 20000:
             score += 10
         else:
             improvements.append("Increase income stability")
-            steps.append("Show stable income or job proof")
+            steps.append("Provide proof of stable income")
 
+        # Accommodation
         if accommodation == "Yes":
             score += 10
         else:
             improvements.append("Arrange accommodation")
             steps.append("Provide hotel booking or invitation letter")
 
+        # Sponsor
         if sponsor == "Yes":
             score += 10
+        else:
+            improvements.append("Add sponsor (optional)")
+            steps.append("Include sponsor details if available")
 
         score = min(score, 100)
 
@@ -200,17 +248,18 @@ if st.button("Check Eligibility 🚀"):
         if result == "Eligible":
             st.success("🎉 You are Eligible!")
             st.balloons()
-
         else:
             st.error("❌ Not Eligible")
 
-            st.markdown("### 🔧 Improvements Needed")
-            for i in improvements:
-                st.write(f"• {i}")
+            if improvements:
+                st.markdown("### 🔧 Improvements Needed")
+                for i in improvements:
+                    st.write(f"• {i}")
 
-            st.markdown("### 🚀 Steps to Improve")
-            for s in steps:
-                st.write(f"• {s}")
+            if steps:
+                st.markdown("### 🚀 Steps to Improve")
+                for s in steps:
+                    st.write(f"• {s}")
 
         st.write(f"**Score:** {score}%")
         st.progress(score / 100)
