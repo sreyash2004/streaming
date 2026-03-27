@@ -18,11 +18,12 @@ countries = [
 st.markdown("""
 <style>
 
-/* PAGE WIDTH */
+/* PAGE MARGIN FIX */
 .block-container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 2rem;
+    max-width: 900px;
+    margin-left: 120px;
+    margin-right: auto;
+    padding-top: 2rem;
 }
 
 /* BACKGROUND */
@@ -171,13 +172,13 @@ elif st.session_state.step == 3:
                 st.markdown("## 📊 Eligibility Result")
 
                 if result=="Eligible":
-                    st.success("🎉 You are Eligible!")
+                    st.success("You are Eligible")
                     st.balloons()
                 else:
-                    st.error("❌ Not Eligible")
+                    st.error("Not Eligible")
 
                 # ===== SCORE =====
-                st.write(f"**Score:** {score}%")
+                st.write(f"Eligibility Score: {score}%")
                 st.progress(score / 100)
 
                 st.markdown("---")
@@ -186,13 +187,13 @@ elif st.session_state.step == 3:
                 clean_reason = reason.replace("•", "").replace("**", "").replace("<br>", "\n").strip()
 
                 # ===== OUTPUT =====
-                st.markdown("### 🔍 1. Visa Requirement Overview")
-                st.info("Requires I-20 form and financial proof.")
+                st.markdown("### 1. Visa Requirement Overview")
+                st.write("Requires I-20 form and financial proof.")
 
-                st.markdown("### 📊 2. Eligibility Confidence Score")
-                st.success(f"Your profile score: {score}%")
+                st.markdown("### 2. Eligibility Confidence Score")
+                st.write(f"The system evaluated your profile with a score of {score}%.")
 
-                st.markdown("### 🧠 3. Detailed Analysis")
+                st.markdown("### 3. Detailed Analysis")
 
                 for line in clean_reason.split("\n"):
                     if line.strip():
