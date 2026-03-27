@@ -177,6 +177,42 @@ elif st.session_state.step == 3:
                 if criminal == "No": score += 10
                 score = min(score, 100)
 
+              elif st.session_state.step == 3:
+
+    st.subheader("📊 Additional Info")
+
+    ielts = st.number_input("IELTS Score *",0.0,9.0,step=0.5)
+    income = st.number_input("Annual Income ($) *",0)
+
+    rejection = st.selectbox("Previous Visa Rejection *", ["","No","Yes"])
+    criminal = st.selectbox("Criminal Record *", ["","No","Yes"])
+
+    col1,col2 = st.columns(2)
+
+    with col1:
+        if st.button("⬅ Back"):
+            st.session_state.step = 2
+
+    with col2:
+        if st.button("Check Eligibility 🚀"):
+
+            if ielts==0 or income==0 or rejection=="" or criminal=="":
+                st.error("⚠️ Fill all fields")
+            else:
+                result, reason = retrieve_documents(
+                    st.session_state.user["age"],
+                    st.session_state.visa["country"],
+                    st.session_state.visa["visa"]
+                )
+
+                # ===== SCORE =====
+                score = 50
+                if ielts >= 6: score += 15
+                if income > 20000: score += 15
+                if rejection == "No": score += 10
+                if criminal == "No": score += 10
+                score = min(score, 100)
+
                 # ===== RESULT =====
                 st.markdown("## 📊 Eligibility Result")
 
@@ -193,7 +229,6 @@ elif st.session_state.step == 3:
                 clean_reason = reason.replace("•", "").replace("**", "").replace("<br>", "<br>").strip()
 
                 # ===== CARD OUTPUT =====
-                st.markdown(f"""
                 <div class="result-card">
 
                 <h4>🔍 1. Visa Requirement Overview</h4>
