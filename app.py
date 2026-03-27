@@ -20,9 +20,17 @@ st.markdown("""
 
 /* CENTER WHOLE WEBSITE */
 .block-container {
-    max-width: 900px;
-    margin: auto;
+    max-width: 800px; /* Slightly tighter for better readability */
+    margin: 0 auto;
     padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Forces children to center */
+}
+
+/* Ensure all elements within block-container take full width of the 800px */
+.stMarkdown, .stButton, .stSelectbox, .stTextInput, .stNumberInput, .stAlert {
+    width: 100% !important;
 }
 
 /* BACKGROUND */
@@ -32,6 +40,7 @@ st.markdown("""
 
 /* TITLE */
 .main-title {
+    width: 100%;
     background: linear-gradient(90deg,#2563EB,#06B6D4);
     color:white;
     padding:18px;
@@ -42,35 +51,32 @@ st.markdown("""
     margin-bottom:25px;
 }
 
-/* BUTTON */
-.stButton>button {
-    width: 100%;
-    height: 45px;
-    background: linear-gradient(90deg,#2563EB,#06B6D4);
-    color:white;
-    border-radius:10px;
-    font-weight:bold;
-}
-
 /* RESULT CARD */
 .result-card {
     background: white;
-    padding: 30px;
+    padding: 35px;
     border-radius: 14px;
-    border-left: 6px solid #2563EB;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    margin-top: 30px;
+    border-left: 8px solid #2563EB;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin: 30px auto; /* Centering the card specifically */
+    width: 100%; /* Ensures it fills the container */
+    box-sizing: border-box; /* Prevents padding from pushing width out */
+    text-align: left; /* Keeps text inside aligned left */
 }
 
 /* TEXT SPACING */
 .result-card h4 {
-    margin-top: 15px;
-    margin-bottom: 5px;
+    color: #1e3a8a;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-size: 1.2rem;
 }
 
 .result-card p {
-    font-size: 15px;
-    margin-bottom: 10px;
+    font-size: 16px;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: 12px;
 }
 
 /* SIDEBAR */
@@ -83,7 +89,6 @@ section[data-testid="stSidebar"] * {
 
 </style>
 """, unsafe_allow_html=True)
-
 # ===== SIDEBAR =====
 st.sidebar.title("⚠️ Important Notice")
 st.sidebar.warning("AI-based visa checker\nNot official decision\nEmbassy has final authority")
