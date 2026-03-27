@@ -50,14 +50,15 @@ st.markdown("""
     height:42px;
 }
 
-/* RESULT CARD */
+/* RESULT CARD - FINAL FIX */
 .result-card {
     background: #f8fafc;
     padding: 25px 30px;
     border-radius: 12px;
     border-left: 6px solid #2563EB;
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    margin-top: 20px;
+    margin: 30px auto;      /* CENTER */
+    max-width: 700px;       /* WIDTH CONTROL */
     color:#0f172a;
     line-height:1.7;
 }
@@ -192,24 +193,21 @@ elif st.session_state.step == 3:
                 # ===== CLEAN TEXT =====
                 clean_reason = reason.replace("•", "").replace("**", "").strip()
 
-                # ===== CENTER FIX =====
-                left, center, right = st.columns([1,2,1])
+                # ===== FINAL CENTERED CARD =====
+                st.markdown(f"""
+                <div class="result-card">
 
-                with center:
-                   st.markdown(f"""
-<div class="result-card">
+                <h4>🔍 1. Visa Requirement Overview</h4>
+                <p>Requires I-20 form and financial proof.</p>
 
-<h4>🔍 1. Visa Requirement Overview</h4>
-<p>Requires I-20 form and financial proof.</p>
+                <h4>📊 2. Eligibility Confidence Score</h4>
+                <p>Your profile score is <b>{score}%</b></p>
 
-<h4>📊 2. Eligibility Confidence Score</h4>
-<p>Your profile score is <b>{score}%</b></p>
+                <h4>🧠 3. Detailed Analysis</h4>
+                <p>{clean_reason}</p>
 
-<h4>🧠 3. Detailed Analysis</h4>
-<p>{clean_reason}</p>
+                <h4>📌 4. Decision Explanation</h4>
+                <p>The decision is based on eligibility rules, visa type alignment, and overall profile strength.</p>
 
-<h4>📌 4. Decision Explanation</h4>
-<p>The decision is based on eligibility rules, visa type alignment, and overall profile strength.</p>
-
-</div>
-""", unsafe_allow_html=True)
+                </div>
+                """, unsafe_allow_html=True)
