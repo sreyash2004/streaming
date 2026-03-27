@@ -56,26 +56,17 @@ input, .stSelectbox div {
     height:42px;
 }
 
-# ===== CLEAN RESULT FIX =====
-clean_reason = reason.replace("•", "").replace("-", "").replace("  ", " ")
-
-st.markdown(f"""
-<div style="
-background: linear-gradient(135deg,#ffffff,#e0f2fe);
-padding:25px;
-border-radius:15px;
-border-left:6px solid #2563EB;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-color:#0f172a;
-font-size:16px;
-line-height:1.7;
-text-align:left;
-">
-
-{clean_reason}
-
-</div>
-""", unsafe_allow_html=True)
+/* RESULT BOX */
+.result-box {
+    background: linear-gradient(135deg,#ffffff,#e0f2fe);
+    padding:25px;
+    border-radius:15px;
+    border-left:6px solid #2563EB;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    color:#0f172a;
+    font-size:16px;
+    line-height:1.7;
+}
 
 /* SIDEBAR */
 section[data-testid="stSidebar"] {
@@ -205,9 +196,21 @@ elif st.session_state.step == 3:
                 st.progress(score / 100)
                 st.write(f"### 📊 Eligibility Score: {score}%")
 
-                # ===== EXPLANATION =====
+                # ===== CLEAN TEXT =====
+                clean_reason = reason.replace("•", "").replace("-", "").strip()
+
+                # ===== OUTPUT BOX =====
                 st.markdown(f"""
                 <div class="result-box">
-                {reason}
+
+                <h4>🔍 1. Visa Requirement Overview</h4>
+                <p>Requires I-20 form and financial proof.</p>
+
+                <h4>📊 2. Eligibility Confidence Score</h4>
+                <p>Your profile has been evaluated with a confidence score of <b>{score}%</b>.</p>
+
+                <h4>🧠 3. Detailed Analysis</h4>
+                <p>{clean_reason}</p>
+
                 </div>
                 """, unsafe_allow_html=True)
