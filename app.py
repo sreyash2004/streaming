@@ -14,72 +14,65 @@ countries = [
     "Sweden","Singapore","Japan","New Zealand","Ireland"
 ]
 
-# ===== CSS (FULL ALIGNMENT FIX) =====
+# ===== CSS (STRICT CENTERING FIX) =====
 st.markdown("""
 <style>
 
-/* CENTER WHOLE WEBSITE */
+/* 1. FORCE THE MAIN CONTAINER TO BE CENTERED */
 .block-container {
-    max-width: 800px; /* Slightly tighter for better readability */
-    margin: 0 auto;
-    padding-top: 2rem;
+    max-width: 850px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/* 2. FIX THE 'TILT' - FORCES THE MARKDOWN ELEMENT TO BE FULL WIDTH */
+[data-testid="stMarkdownContainer"] > div {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Forces children to center */
+    align-items: center;
+    width: 100%;
 }
 
-/* Ensure all elements within block-container take full width of the 800px */
-.stMarkdown, .stButton, .stSelectbox, .stTextInput, .stNumberInput, .stAlert {
-    width: 100% !important;
-}
-
-/* BACKGROUND */
+/* 3. BACKGROUND */
 .stApp {
     background: linear-gradient(135deg, #e0f2fe, #f8fafc);
 }
 
-/* TITLE */
+/* 4. RESULT CARD - ADDING BOX-SIZING IS KEY */
+.result-card {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    border-left: 8px solid #2563EB;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    
+    /* This ensures the card stays centered within the 850px lane */
+    width: 100%; 
+    max-width: 800px;
+    margin: 20px auto !important;
+    
+    /* Prevents internal content from pushing the card's width out */
+    box-sizing: border-box; 
+    text-align: left;
+}
+
+/* 5. TITLE ALIGNMENT */
 .main-title {
     width: 100%;
     background: linear-gradient(90deg,#2563EB,#06B6D4);
     color:white;
-    padding:18px;
+    padding:20px;
     border-radius:12px;
     text-align:center;
     font-size:32px;
     font-weight:bold;
     margin-bottom:25px;
+    box-sizing: border-box;
 }
 
-/* RESULT CARD */
-.result-card {
-    background: white;
-    padding: 35px;
-    border-radius: 14px;
-    border-left: 8px solid #2563EB;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin: 30px auto; /* Centering the card specifically */
-    width: 100%; /* Ensures it fills the container */
-    box-sizing: border-box; /* Prevents padding from pushing width out */
-    text-align: left; /* Keeps text inside aligned left */
-}
-
-/* TEXT SPACING */
-.result-card h4 {
-    color: #1e3a8a;
-    margin-top: 20px;
-    margin-bottom: 8px;
-    font-size: 1.2rem;
-}
-
-.result-card p {
-    font-size: 16px;
-    color: #334155;
-    line-height: 1.6;
-    margin-bottom: 12px;
-}
-
-/* SIDEBAR */
+/* 6. SIDEBAR */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg,#2563EB,#38BDF8);
 }
