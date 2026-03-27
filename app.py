@@ -1,12 +1,12 @@
 import streamlit as st
 from retrievalout import retrieve_documents
 
+# ===== CONFIG =====
+st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="wide")
+
 # ===== SESSION =====
 if "step" not in st.session_state:
     st.session_state.step = 1
-
-# ===== CONFIG =====
-st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="wide")
 
 countries = [
     "USA","Canada","UK","Germany","Australia",
@@ -14,13 +14,13 @@ countries = [
     "Sweden","Singapore","Japan","New Zealand","Ireland"
 ]
 
-# ===== CSS =====
+# ===== CSS (FULL ALIGNMENT FIX) =====
 st.markdown("""
 <style>
 
-/* PAGE WIDTH */
+/* CENTER WHOLE WEBSITE */
 .block-container {
-    max-width: 1100px;
+    max-width: 900px;
     margin: auto;
     padding-top: 2rem;
 }
@@ -34,33 +34,43 @@ st.markdown("""
 .main-title {
     background: linear-gradient(90deg,#2563EB,#06B6D4);
     color:white;
-    padding:16px;
+    padding:18px;
     border-radius:12px;
     text-align:center;
-    font-size:30px;
+    font-size:32px;
     font-weight:bold;
+    margin-bottom:25px;
 }
 
 /* BUTTON */
 .stButton>button {
+    width: 100%;
+    height: 45px;
     background: linear-gradient(90deg,#2563EB,#06B6D4);
     color:white;
-    font-weight:bold;
     border-radius:10px;
-    height:42px;
+    font-weight:bold;
 }
 
-/* RESULT CARD - FINAL FIX */
+/* RESULT CARD */
 .result-card {
-    background: #f8fafc;
-    padding: 25px 30px;
-    border-radius: 12px;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
     border-left: 6px solid #2563EB;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    margin: 30px auto;      /* CENTER */
-    max-width: 700px;       /* WIDTH CONTROL */
-    color:#0f172a;
-    line-height:1.7;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin-top: 30px;
+}
+
+/* TEXT SPACING */
+.result-card h4 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.result-card p {
+    font-size: 15px;
+    margin-bottom: 10px;
 }
 
 /* SIDEBAR */
@@ -76,17 +86,7 @@ section[data-testid="stSidebar"] * {
 
 # ===== SIDEBAR =====
 st.sidebar.title("⚠️ Important Notice")
-st.sidebar.warning("""
-AI-based visa checker  
-Not official decision  
-Embassy has final authority
-""")
-
-st.sidebar.info("""
-✔ Academic Project  
-✔ AI + Rule-based  
-✔ Demo Purpose  
-""")
+st.sidebar.warning("AI-based visa checker\nNot official decision\nEmbassy has final authority")
 
 # ===== TITLE =====
 st.markdown('<div class="main-title">🌍 SwiftVisa AI</div>', unsafe_allow_html=True)
@@ -125,7 +125,7 @@ elif st.session_state.step == 2:
     travel = st.selectbox("Travel History *", ["","None","Few","Frequent"])
     finance = st.selectbox("Financial Proof *", ["","Yes","No"])
 
-    col1,col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
     with col1:
         if st.button("⬅ Back"):
@@ -152,7 +152,7 @@ elif st.session_state.step == 3:
     rejection = st.selectbox("Previous Visa Rejection *", ["","No","Yes"])
     criminal = st.selectbox("Criminal Record *", ["","No","Yes"])
 
-    col1,col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
     with col1:
         if st.button("⬅ Back"):
@@ -170,7 +170,7 @@ elif st.session_state.step == 3:
                     st.session_state.visa["visa"]
                 )
 
-                # ===== SCORE =====
+                # SCORE
                 score = 50
                 if ielts >= 6: score += 15
                 if income > 20000: score += 15
@@ -178,22 +178,20 @@ elif st.session_state.step == 3:
                 if criminal == "No": score += 10
                 score = min(score, 100)
 
-                # ===== RESULT =====
+                # RESULT
                 st.markdown("## 📊 Eligibility Result")
 
                 if result == "Eligible":
                     st.success("🎉 You are Eligible!")
-                    st.balloons()
                 else:
                     st.error("❌ Not Eligible")
 
                 st.write(f"**Score:** {score}%")
                 st.progress(score / 100)
 
-                # ===== CLEAN TEXT =====
                 clean_reason = reason.replace("•", "").replace("**", "").strip()
 
-                # ===== FINAL CENTERED CARD =====
+                # FINAL CARD
                 st.markdown(f"""
                 <div class="result-card">
 
@@ -201,13 +199,13 @@ elif st.session_state.step == 3:
                 <p>Requires I-20 form and financial proof.</p>
 
                 <h4>📊 2. Eligibility Confidence Score</h4>
-                <p>Your profile score is <b>{score}%</b></p>
+                <p><b>{score}%</b></p>
 
                 <h4>🧠 3. Detailed Analysis</h4>
                 <p>{clean_reason}</p>
 
                 <h4>📌 4. Decision Explanation</h4>
-                <p>The decision is based on eligibility rules, visa type alignment, and overall profile strength.</p>
+                <p>Based on eligibility rules and profile strength.</p>
 
                 </div>
                 """, unsafe_allow_html=True)
