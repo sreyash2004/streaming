@@ -195,25 +195,20 @@ elif st.session_state.step == 3:
                 # ===== SCORE BAR =====
                 st.progress(score / 100)
                 st.write(f"### 📊 Eligibility Score: {score}%")
-
 # ===== CLEAN TEXT =====
-clean_reason = reason.replace("•", "").replace("-", "").strip()
+clean_reason = reason.replace("•", "").replace("-", "").replace("**", "").strip()
 
-# ===== CENTERED OUTPUT =====
-col1, col2, col3 = st.columns([1, 6, 1])   # center column
+# ===== CENTER LAYOUT =====
+col1, col2, col3 = st.columns([1,5,1])
 
 with col2:
-    st.markdown(f"""
-    <div class="result-box">
 
-    <h4 style="text-align:center;">🔍 1. Visa Requirement Overview</h4>
-    <p style="text-align:center;">Requires I-20 form and financial proof.</p>
+    st.markdown("### 🔍 1. Visa Requirement Overview")
+    st.info("Requires I-20 form and financial proof.")
 
-    <h4 style="text-align:center;">📊 2. Eligibility Confidence Score</h4>
-    <p style="text-align:center;">Your profile score is <b>{score}%</b></p>
+    st.markdown("### 📊 2. Eligibility Confidence Score")
+    st.success(f"Your profile score: {score}%")
 
-    <h4 style="text-align:center;">🧠 3. Detailed Analysis</h4>
-    <p style="text-align:center;">{clean_reason}</p>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("### 🧠 3. Detailed Analysis")
+    st.write(clean_reason)
+    
