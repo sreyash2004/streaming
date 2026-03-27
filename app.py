@@ -5,7 +5,7 @@ from retrievalout import retrieve_documents
 if "step" not in st.session_state:
     st.session_state.step = 1
 
-# ===== PAGE CONFIG (IMPORTANT FIX) =====
+# ===== PAGE CONFIG =====
 st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="wide")
 
 # ===== COUNTRIES =====
@@ -15,7 +15,7 @@ countries = [
     "Sweden", "Singapore", "Japan", "New Zealand", "Ireland"
 ]
 
-# ===== CSS (FIXED CENTER ISSUE) =====
+# ===== CSS =====
 st.markdown("""
 <style>
 
@@ -60,8 +60,34 @@ st.markdown("""
     border-radius: 10px;
 }
 
+/* SIDEBAR STYLE */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #2563EB, #38BDF8);
+}
+
+section[data-testid="stSidebar"] * {
+    color: white !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
+
+# ===== SIDEBAR (ADDED BACK) =====
+st.sidebar.title("⚠️ Important Notice")
+
+st.sidebar.warning("""
+This is an AI-based visa eligibility system.
+
+- Not an official visa authority  
+- Results are predictive only  
+- Final decision depends on embassy  
+""")
+
+st.sidebar.info("""
+✔ Academic Project  
+✔ AI + Rule-based System  
+✔ For demo purpose only  
+""")
 
 # ===== TITLE =====
 st.markdown('<div class="main-title">🌍 SwiftVisa AI - Smart Eligibility Checker</div>', unsafe_allow_html=True)
@@ -83,7 +109,6 @@ if st.session_state.step == 1:
         else:
             st.session_state.user_data = {"age": age}
             st.session_state.step = 2
-
 
 # =======================
 # STEP 2
@@ -116,9 +141,8 @@ elif st.session_state.step == 2:
                 }
                 st.session_state.step = 3
 
-
 # =======================
-# STEP 3 (IELTS LOGIC)
+# STEP 3
 # =======================
 elif st.session_state.step == 3:
 
@@ -127,7 +151,6 @@ elif st.session_state.step == 3:
     ielts_taken = st.selectbox("Did you attend IELTS?", ["", "Yes", "No"])
 
     ielts_score = 0
-
     if ielts_taken == "Yes":
         ielts_score = st.number_input("IELTS Score", 0.0, 9.0, step=0.5)
 
