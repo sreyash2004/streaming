@@ -5,111 +5,63 @@ from retrievalout import retrieve_documents
 if "step" not in st.session_state:
     st.session_state.step = 1
 
-# ===== PAGE CONFIG =====
-st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="centered")
+# ===== PAGE CONFIG (IMPORTANT FIX) =====
+st.set_page_config(page_title="SwiftVisa AI", page_icon="🌍", layout="wide")
 
-# ===== CSS (IMPROVED UI) =====
+# ===== COUNTRIES =====
+countries = [
+    "USA", "Canada", "UK", "Germany", "Australia",
+    "France", "Italy", "Spain", "Netherlands",
+    "Sweden", "Singapore", "Japan", "New Zealand", "Ireland"
+]
+
+# ===== CSS (FIXED CENTER ISSUE) =====
 st.markdown("""
 <style>
 
-/* ===== BACKGROUND (GRADIENT - NOT PLAIN) ===== */
+/* CENTER CONTENT */
+.block-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 2rem;
+}
+
+/* BACKGROUND */
 .stApp {
     background: linear-gradient(135deg, #dbeafe, #e0f2fe, #f0f9ff);
 }
 
-/* ===== MAIN CARD ===== */
-.block-container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid #cbd5f5;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-}
-
-/* ===== TITLE ===== */
+/* TITLE */
 .main-title {
     background: linear-gradient(90deg, #2563EB, #06B6D4);
     color: white;
     padding: 18px;
     border-radius: 12px;
     text-align: center;
-    font-size: 34px;
+    font-size: 30px;
     font-weight: bold;
     margin-bottom: 15px;
 }
 
-/* ===== HEADINGS ===== */
-h1, h2, h3 {
-    color: #0f172a !important;
-}
-
-/* ===== LABELS ===== */
-label {
-    color: #1e293b !important;
-    font-weight: 600 !important;
-}
-
-/* ===== INPUTS ===== */
-.stTextInput input,
-.stNumberInput input,
-.stSelectbox div[data-baseweb="select"] {
-    background-color: #f8fafc !important;
-    border-radius: 10px !important;
-    border: 1px solid #93c5fd !important;
-    color: #0f172a !important;
-}
-
-/* ===== BUTTON ===== */
+/* BUTTON */
 .stButton>button {
     background: linear-gradient(90deg, #3B82F6, #06B6D4);
     color: white;
     font-weight: bold;
-    border-radius: 12px;
-    height: 45px;
-    border: none;
+    border-radius: 10px;
+    height: 42px;
 }
 
-.stButton>button:hover {
-    transform: scale(1.05);
-}
-
-/* ===== RESULT BOX ===== */
+/* RESULT BOX */
 .result-box {
     background: #f1f5f9;
     padding: 20px;
     border-left: 6px solid #2563EB;
     border-radius: 10px;
-    color: #0f172a;
-}
-
-/* ===== SIDEBAR ===== */
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #2563EB, #38BDF8);
-}
-
-section[data-testid="stSidebar"] * {
-    color: white !important;
 }
 
 </style>
 """, unsafe_allow_html=True)
-
-# ===== SIDEBAR =====
-st.sidebar.title("⚠️ Important Notice")
-
-st.sidebar.warning("""
-This is an AI-based visa eligibility system.
-
-- Not an official visa authority  
-- Results are predictive only  
-- Final decision depends on embassy  
-""")
-
-st.sidebar.info("""
-✔ Academic Project  
-✔ AI + Rule-based System  
-✔ For demonstration use only  
-""")
 
 # ===== TITLE =====
 st.markdown('<div class="main-title">🌍 SwiftVisa AI - Smart Eligibility Checker</div>', unsafe_allow_html=True)
@@ -121,27 +73,17 @@ if st.session_state.step == 1:
 
     st.subheader("👤 Personal Information")
 
-    name = st.text_input("👤 Full Name *")
-    age = st.number_input("🎂 Age *", min_value=0, max_value=100)
-    nationality = st.text_input("🌎 Nationality *")
-
-    marital = st.selectbox("💍 Marital Status *", ["", "Single", "Married"])
-    education = st.selectbox("🎓 Education *", ["", "High School", "Bachelor", "Master", "PhD"])
-    employment = st.selectbox("💼 Employment *", ["", "Student", "Employed", "Unemployed"])
+    name = st.text_input("Full Name")
+    age = st.number_input("Age", min_value=0, max_value=100)
+    education = st.selectbox("Education *", ["", "High School", "Bachelor", "Master", "PhD"])
 
     if st.button("Next ➡"):
-        if not name or age == 0 or nationality == "" or marital == "" or education == "" or employment == "":
-            st.error("⚠️ Fill all mandatory fields")
+        if education == "" or age == 0:
+            st.error("Fill required fields")
         else:
-            st.session_state.user_data = {
-                "name": name,
-                "age": age,
-                "nationality": nationality,
-                "marital": marital,
-                "education": education,
-                "employment": employment
-            }
+            st.session_state.user_data = {"age": age}
             st.session_state.step = 2
+
 
 # =======================
 # STEP 2
@@ -150,13 +92,11 @@ elif st.session_state.step == 2:
 
     st.subheader("🌍 Visa Details")
 
-    country = st.selectbox("🌍 Destination Country *", ["", "USA", "Canada", "UK", "Germany", "Australia"])
-    visa = st.selectbox("🛂 Visa Type *", ["", "Tourist", "Student", "Work"])
-    purpose = st.selectbox("✈ Purpose *", ["", "Tourism", "Study", "Work"])
+    country = st.selectbox("Destination Country *", [""] + countries)
+    visa = st.selectbox("Visa Type *", ["", "Tourist", "Student", "Work"])
 
-    travel = st.selectbox("🧳 Travel History *", ["", "None", "Few Countries", "Frequent Traveler"])
-    finance = st.selectbox("💰 Financial Proof *", ["", "Yes", "No"])
-    stay = st.selectbox("🏠 Accommodation *", ["", "Booked", "Not Booked"])
+    finance = st.selectbox("Financial Proof *", ["", "Yes", "No"])
+    criminal = st.selectbox("Criminal Record *", ["", "No", "Yes"])
 
     col1, col2 = st.columns(2)
 
@@ -166,26 +106,32 @@ elif st.session_state.step == 2:
 
     with col2:
         if st.button("Next ➡"):
-            if country == "" or visa == "" or purpose == "" or travel == "" or finance == "":
-                st.error("⚠️ Fill all mandatory fields")
+            if country == "" or visa == "" or finance == "" or criminal == "":
+                st.error("Fill required fields")
             else:
                 st.session_state.visa_data = {
                     "country": country,
-                    "visa": visa
+                    "visa": visa,
+                    "criminal": criminal
                 }
                 st.session_state.step = 3
 
+
 # =======================
-# STEP 3
+# STEP 3 (IELTS LOGIC)
 # =======================
 elif st.session_state.step == 3:
 
-    st.subheader("📊 Risk & Score Analysis")
+    st.subheader("📊 Additional Details")
 
-    criminal = st.selectbox("⚖ Criminal Record *", ["", "No", "Yes"])
-    income = st.number_input("💵 Annual Income ($) *", min_value=0)
-    ielts = st.number_input("📘 IELTS Score *", min_value=0.0, max_value=9.0, step=0.5)
-    rejection = st.selectbox("❌ Previous Visa Rejection *", ["", "No", "Yes"])
+    ielts_taken = st.selectbox("Did you attend IELTS?", ["", "Yes", "No"])
+
+    ielts_score = 0
+
+    if ielts_taken == "Yes":
+        ielts_score = st.number_input("IELTS Score", 0.0, 9.0, step=0.5)
+
+    rejection = st.selectbox("Previous Visa Rejection *", ["", "No", "Yes"])
 
     col1, col2 = st.columns(2)
 
@@ -196,8 +142,8 @@ elif st.session_state.step == 3:
     with col2:
         if st.button("Check Eligibility 🚀"):
 
-            if criminal == "" or income == 0 or ielts == 0 or rejection == "":
-                st.error("⚠️ Fill all mandatory fields")
+            if ielts_taken == "" or rejection == "":
+                st.error("Fill required fields")
             else:
                 result, reason = retrieve_documents(
                     st.session_state.user_data["age"],
